@@ -5,18 +5,22 @@ using MediatR;
 
 namespace LogisticService.Handlers.CarBrandHandlers
 {
-	public class CreateCarModelHandler : IRequestHandler<CreateCardModelCommand, CarBrand>
+	public class CreateCarBrandHandler : IRequestHandler<CreateCarBrandCommand, CarBrand>
 	{
 		private readonly ICarBrandService _carBrandService;
 
-		public CreateCarModelHandler(ICarBrandService carBrandService)
+		public CreateCarBrandHandler(ICarBrandService carBrandService)
 		{
 			_carBrandService = carBrandService;
 		}
 
-		public Task<CarBrand> Handle(CreateCardModelCommand request, CancellationToken cancellationToken)
+		public async Task<CarBrand> Handle(CreateCarBrandCommand request, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var carBrand = new CarBrand(request.Brand, request.Models);
+
+			await _carBrandService.AddCarBrandAsync(carBrand);
+
+			return carBrand;
 		}
 	}
 }

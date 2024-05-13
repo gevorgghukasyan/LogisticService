@@ -1,14 +1,31 @@
-﻿using LogisticService.Commands.CarBrandCommands;
+﻿using LogisticService.Commands.CarModelCommands;
 using LogisticService.Models.Cars;
+using LogisticService.Services;
 using MediatR;
 
 namespace LogisticService.Handlers.CarModelHandlers
 {
-	public class UpdateCarModelHandler : IRequestHandler<UpdateCarModelCommand, CarBrand>
+	public class UpdateCarModelHandler : IRequestHandler<UpdateCarModelCommand, CarModel>
 	{
-		public Task<CarBrand> Handle(UpdateCarModelCommand request, CancellationToken cancellationToken)
+		private readonly ICarModelService _carModelService;
+
+		public UpdateCarModelHandler(ICarModelService carModelService)
 		{
-			throw new NotImplementedException();
+			_carModelService = carModelService;
+		}
+
+		public async Task<CarModel> Handle(UpdateCarModelCommand request, CancellationToken cancellationToken)
+		{
+			var carModel = await _carModelService.GetCarModelAsync(request.Brand, request.Model.Name);
+
+			if (carModel == null)
+			{
+				return default(CarModel);
+			}
+
+			carModel.Type = request.Model.Type;
+
+			return await _carModelService.UpdateCarModelAsync(request.Brand, carModel);
 		}
 	}
 }

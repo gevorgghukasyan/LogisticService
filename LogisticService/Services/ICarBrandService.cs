@@ -8,6 +8,6 @@ namespace LogisticService.Services
 		Task AddCarBrandAsync(CarBrand carBrand);
 		Task<CarBrand> UpdateCarBrandAsync(CarBrand carBrand);
 		Task DeleteCarBrandAsync(CarBrand carBrand);
-		Task<CarBrand> GetCarBrandByBrandAsync(string brand);
+		Task<CarBrand> GetCarBrandByNameAsync(string brand);
 	}
 }

@@ -6,12 +6,12 @@ namespace LogisticService.Commands.CarModelCommands
 	public class DeleteCarModelCommand : IRequest<bool>
 	{
 		public string BrandName { get; set; }
-		public CarModel CarModel { get; set; }
+		public string ModelName { get; set; }
 
-		public DeleteCarModelCommand(string brandName, CarModel carModel)
+		public DeleteCarModelCommand(string brandName, string modelName)
 		{
 			BrandName = brandName;
-			CarModel = carModel;
+			ModelName = modelName;
 		}
 	}
 }

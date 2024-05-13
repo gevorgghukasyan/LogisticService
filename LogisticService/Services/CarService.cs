@@ -36,7 +36,7 @@ namespace LogisticService.Services
 			await _context.SaveChangesAsync();
 		}
 
-		public Task<CarBrand> GetCarBrandByBrandAsync(string brand)
+		public Task<CarBrand> GetCarBrandByNameAsync(string brand)
 		{
 			var carBrand = _context.CarBrands
 				.FirstOrDefaultAsync(x => x.Brand.ToLowerInvariant() == brand.ToLowerInvariant());
@@ -140,6 +140,13 @@ namespace LogisticService.Services
 			await _context.SaveChangesAsync();
 
 			return model;
+		}
+
+		public async Task<List<CarModel>> GetCarModelListByBrandName(string brandName)
+		{
+			var brand = await _context.CarBrands.FirstOrDefaultAsync(x => x.Brand.ToLowerInvariant() == brandName.ToLowerInvariant());
+
+			return brand.Models;
 		}
 	}
 }

@@ -1,14 +1,22 @@
 ﻿using LogisticService.Models.Cars;
-using LogisticService.Queries.CarBrandQueries;
+using LogisticService.Queries.CarModelQueries;
+using LogisticService.Services;
 using MediatR;
 
 namespace LogisticService.Handlers.CarModelHandlers
 {
-	public class GetCarModelByNameHandler : IRequestHandler<GetCarBrandByBrandNameQuery, CarBrand>
+	public class GetCarModelByNameHandler : IRequestHandler<GetCarModelByModelNameQuery, CarModel>
 	{
-		public Task<CarBrand> Handle(GetCarBrandByBrandNameQuery request, CancellationToken cancellationToken)
+		private readonly ICarModelService _carModelService;
+
+		public GetCarModelByNameHandler(ICarModelService carModelService)
 		{
-			throw new NotImplementedException();
+			_carModelService = carModelService;
+		}
+
+		public async Task<CarModel> Handle(GetCarModelByModelNameQuery request, CancellationToken cancellationToken)
+		{
+			return await _carModelService.GetCarModelAsync(request.BrandName, request.ModelName);
 		}
 	}
 }
