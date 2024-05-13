@@ -1,7 +1,7 @@
 ﻿using LogisticService.Commands.CarBrandCommands;
 using MediatR;
 
-namespace LogisticService.Handlers.CarBrandHandlers
+namespace LogisticService.Handlers.CarModelHandlers
 {
 	public class DeleteCarModelHandler : IRequestHandler<DeleteCarModelCommand, bool>
 	{

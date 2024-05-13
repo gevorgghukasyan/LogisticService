@@ -3,7 +3,7 @@ using LogisticService.Models.Cars;
 using LogisticService.Services;
 using MediatR;
 
-namespace LogisticService.Handlers.CarBrandHandlers
+namespace LogisticService.Handlers.CarModelHandlers
 {
 	public class CreateCarModelHandler : IRequestHandler<CreateCardModelCommand, CarBrand>
 	{

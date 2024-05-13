@@ -2,7 +2,7 @@
 using LogisticService.Queries.CarBrandQueries;
 using MediatR;
 
-namespace LogisticService.Handlers.CarBrandHandlers
+namespace LogisticService.Handlers.CarModelHandlers
 {
 	public class GetCarModelByNameHandler : IRequestHandler<GetCarBrandByBrandNameQuery, CarBrand>
 	{

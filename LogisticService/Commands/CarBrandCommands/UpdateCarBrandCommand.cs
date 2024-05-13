@@ -3,9 +3,9 @@ using MediatR;
 
 namespace LogisticService.Commands.CarBrandCommands
 {
-	public class UpdateCarBrandCommand : IRequest<CarBrand>
+	public class UpdateCarModelCommand : IRequest<CarBrand>
 	{
-		public UpdateCarBrandCommand(string brand, List<CarModel> models)
+		public UpdateCarModelCommand(string brand, List<CarModel> models)
 		{
 			Brand = brand;
 			Models = models;

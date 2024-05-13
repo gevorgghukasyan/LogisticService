@@ -2,7 +2,7 @@
 using LogisticService.Models.Cars;
 using MediatR;
 
-namespace LogisticService.Handlers.CarBrandHandlers
+namespace LogisticService.Handlers.CarModelHandlers
 {
 	public class UpdateCarModelHandler : IRequestHandler<UpdateCarModelCommand, CarBrand>
 	{

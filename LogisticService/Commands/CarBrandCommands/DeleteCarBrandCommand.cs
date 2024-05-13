@@ -2,11 +2,11 @@
 
 namespace LogisticService.Commands.CarBrandCommands
 {
-	public class DeleteCarBrandCommand : IRequest<bool>
+	public class DeleteCarModelCommand : IRequest<bool>
 	{
 		public string BrandName { get; set; }
 
-		public DeleteCarBrandCommand(string brandName)
+		public DeleteCarModelCommand(string brandName)
 		{
 			BrandName = brandName;
 		}
