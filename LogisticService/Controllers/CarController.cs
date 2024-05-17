@@ -1,10 +1,16 @@
-﻿using LogisticService.Commands.CarBrandCommands;
+﻿using LogisticService.Commands.AuthenticationCommands;
+using LogisticService.Commands.CarBrandCommands;
 using LogisticService.Commands.CarModelCommands;
 using LogisticService.Models.Cars;
 using LogisticService.Queries.CarBrandQueries;
 using LogisticService.Queries.CarModelQueries;
+using LogisticService.Requests;
+using LogisticService.Responses;
+using LogisticService.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LogisticService.Controllers
 {
@@ -97,6 +103,39 @@ namespace LogisticService.Controllers
 			var carModels = await _mediator.Send(GetCarModelListByBrandName(brandName));
 
 			return Ok(carModels);
+		}
+
+		[HttpPost("[action]")]
+		public async Task<ActionResult<AuthorizationResponse>> Authorize(AuthorizationRequest request)
+		{
+			var response = await _mediator.Send(new AuthorizeCommand(request));
+
+			return Ok(response);
+		}
+
+		[AllowAnonymous]
+		[HttpPost("[action]")]
+		public async Task<ActionResult<string>> Login([FromHeader] string username, [FromHeader] string password)
+		{
+			try
+			{
+				if (username.IsNullOrEmpty() || password.IsNullOrEmpty())
+				{
+					throw new ArgumentException("Argument can't be null.");
+				}
+
+				var user = await _mediator.Send(new LoginCommand(username, password));
+				//	var user = await _service.Login(username, password);
+
+				var jwtService = new JwtService("ForTheLoveOfGodStoreAndLoadThisSecurely", "yourIssuer");
+				var token = jwtService.GenerateToken(user);
+
+				return Ok(token);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
 		}
 	}
 }

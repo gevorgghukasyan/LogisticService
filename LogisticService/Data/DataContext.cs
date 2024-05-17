@@ -1,4 +1,5 @@
-﻿using LogisticService.Models.Cars;
+﻿using LogisticService.Models;
+using LogisticService.Models.Cars;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogisticService.Data
@@ -11,5 +12,6 @@ namespace LogisticService.Data
 		}
 
 		public DbSet<CarBrand> CarBrands { get; set; }
+		public DbSet<User> Users{ get; set; }
 	}
 }

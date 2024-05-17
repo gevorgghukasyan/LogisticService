@@ -1,4 +1,5 @@
 ﻿using LogisticService.Data;
+using LogisticService.Models;
 using LogisticService.Models.Cars;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Data.Entity;
