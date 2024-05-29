@@ -1,6 +1,7 @@
 ﻿using LogisticService.Commands.AuthenticationCommands;
 using LogisticService.Commands.CarBrandCommands;
 using LogisticService.Commands.CarModelCommands;
+using LogisticService.Models.Authentication;
 using LogisticService.Models.Cars;
 using LogisticService.Queries.CarBrandQueries;
 using LogisticService.Queries.CarModelQueries;
@@ -16,24 +17,27 @@ namespace LogisticService.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class CarController : ControllerBase
 	{
 		private readonly IMediator _mediator;
+		private readonly IConfiguration _configuration;
 
-		public CarController(IMediator mediator)
+		public CarController(IMediator mediator, IConfiguration configuration)
 		{
 			_mediator = mediator;
+			_configuration = configuration;
 		}
 
-		[HttpGet]
-		public async Task<ActionResult<List<CarBrand>>> GetCarBrandListAsync()
+		[HttpPost("[action]")]
+		public async Task<ActionResult<List<CarBrand>>> GetCarBrandListAsync(GetCarBrandListRequest request)
 		{
 			var brandes = await _mediator.Send(new GetCarBrandListQuery());
 
 			return Ok(brandes);
 		}
 
-		[HttpPost]
+		[HttpPost("[action]")]
 		public async Task<ActionResult<CarBrand>> AddCarBrandAsync(CarBrand carBrand)
 		{
 			var newBrand = await _mediator.Send(new CreateCarBrandCommand(carBrand.Brand, carBrand.Models));
@@ -41,7 +45,7 @@ namespace LogisticService.Controllers
 			return Ok(newBrand);
 		}
 
-		[HttpPut]
+		[HttpPost("[action]")]
 		public async Task<ActionResult<CarBrand>> UpdateCarBrandAsync(CarBrand carBrand)
 		{
 			var updatedBrand = await _mediator.Send(new UpdateCarBrandCommand(carBrand.Brand, carBrand.Models));
@@ -49,7 +53,7 @@ namespace LogisticService.Controllers
 			return Ok(updatedBrand);
 		}
 
-		[HttpDelete]
+		[HttpPost("[action]")]
 		public async Task<ActionResult<bool>> DeleteCarBrandAsync(CarBrand carBrand)
 		{
 			var isSuccess = await _mediator.Send(new DeleteCarBrandCommand(carBrand.Brand));
@@ -57,50 +61,50 @@ namespace LogisticService.Controllers
 			return Ok(isSuccess);
 		}
 
-		[HttpGet("CarList")]
-		public async Task<ActionResult<CarBrand>> GetCarBrandByBrandAsync(string brand)
+		[HttpPost("[action]")]
+		public async Task<ActionResult<CarBrand>> GetCarBrandByBrandAsync(GetCarBrandByBrandRequest request)
 		{
-			var brd = await _mediator.Send(new GetCarBrandByBrandNameQuery(brand));
+			var brd = await _mediator.Send(new GetCarBrandByBrandNameQuery(request.Brand));
 
 			return Ok(brd);
 		}
 
-		[HttpPost("CarModel")]
-		public async Task<ActionResult<CarModel>> AddCarModelAsync(string brand, CarModel model)
+		[HttpPost("[action]")]
+		public async Task<ActionResult<CarModel>> AddCarModelAsync(AddCarModelRequest request)
 		{
-			var carModel = await _mediator.Send(new CreateCarModelCommand(brand, model));
+			var carModel = await _mediator.Send(new CreateCarModelCommand(request.Brand, request.Model));
 
 			return Ok(carModel);
 		}
 
-		[HttpGet("CarModel")]
-		public async Task<ActionResult<CarModel>> GetCarModelAsync(string brand, string modelName)
+		[HttpPost("[action]")]
+		public async Task<ActionResult<CarModel>> GetCarModelAsync(GetCarModelRequest request)
 		{
-			var carModel = await _mediator.Send(new GetCarModelByModelNameQuery(brand, modelName));
+			var carModel = await _mediator.Send(new GetCarModelByModelNameQuery(request.Brand, request.ModelName));
 
 			return Ok(carModel);
 		}
 
-		[HttpPut("CarModel")]
-		public async Task<ActionResult<CarModel>> UpdateCarModelAsync(string brand, CarModel carModel)
+		[HttpPost("[action]")]
+		public async Task<ActionResult<CarModel>> UpdateCarModelAsync(UpdateCarModelRequest request)
 		{
-			var model = await _mediator.Send(new UpdateCarModelCommand(brand, carModel));
+			var model = await _mediator.Send(new UpdateCarModelCommand(request.Brand, request.Model));
 
 			return Ok(model);
 		}
 
-		[HttpDelete("CarModel")]
-		public async Task<ActionResult<bool>> DeleteCarModelAsync(string brand, string modelName)
+		[HttpPost("[action]")]
+		public async Task<ActionResult<bool>> DeleteCarModelAsync(DeleteCarModelRequest request)
 		{
-			var isSuccess = await _mediator.Send(new DeleteCarModelCommand(brand, modelName));
+			var isSuccess = await _mediator.Send(new DeleteCarModelCommand(request.Brand, request.ModelName));
 
 			return isSuccess;
 		}
 
-		[HttpGet("CarModelList")]
-		public async Task<ActionResult<List<CarModel>>> GetCarModelListByBrandName(string brandName)
+		[HttpPost("[action]")]
+		public async Task<ActionResult<List<CarModel>>> GetCarModelListByBrandNameAsync(GetCarModelListByBrandNameRequest request)
 		{
-			var carModels = await _mediator.Send(GetCarModelListByBrandName(brandName));
+			var carModels = await _mediator.Send(new GetCarBrandByBrandNameQuery(request.BrandName));
 
 			return Ok(carModels);
 		}
@@ -115,7 +119,7 @@ namespace LogisticService.Controllers
 
 		[AllowAnonymous]
 		[HttpPost("[action]")]
-		public async Task<ActionResult<string>> Login([FromHeader] string username, [FromHeader] string password)
+		public async Task<ActionResult<Tuple<string, string>>> Login([FromHeader] string username, [FromHeader] string password)
 		{
 			try
 			{
@@ -128,14 +132,24 @@ namespace LogisticService.Controllers
 				//	var user = await _service.Login(username, password);
 
 				var jwtService = new JwtService("ForTheLoveOfGodStoreAndLoadThisSecurely", "yourIssuer");
-				var token = jwtService.GenerateToken(user);
+				var tokens = jwtService.GenerateTokens(user);
 
-				return Ok(token);
+				return Ok(tokens);
 			}
 			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
+		}
+
+		[AllowAnonymous]
+		[HttpPost("[action]")]
+		public ActionResult<TokenResponse> RefreshToken(string refreshToken)
+		{
+			var jwtService = new JwtService("ForTheLoveOfGodStoreAndLoadThisSecurely", "yourIssuer");
+			var tokens = jwtService.RefreshToken(refreshToken);
+
+			return Ok(tokens);
 		}
 	}
 }

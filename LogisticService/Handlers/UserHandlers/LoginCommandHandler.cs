@@ -1,11 +1,11 @@
 ﻿using LogisticService.Commands.AuthenticationCommands;
-using LogisticService.Models;
+using LogisticService.Models.Authentication;
 using LogisticService.Services;
 using MediatR;
 
 namespace LogisticService.Handlers.UserHandlers
 {
-	public class LoginCommandHandler : IRequestHandler<LoginCommand, User>
+    public class LoginCommandHandler : IRequestHandler<LoginCommand, User>
 	{
 		private readonly IAuthenticationService _loginService;
 
@@ -16,7 +16,7 @@ namespace LogisticService.Handlers.UserHandlers
 
 		public async Task<User> Handle(LoginCommand request, CancellationToken cancellationToken)
 		{
-			var user = await _loginService.Login(request.LoginModel.Username, request.LoginModel.Password);
+			var user = await _loginService.Login(request.Username, request.Password);
 
 			return user;
 		}

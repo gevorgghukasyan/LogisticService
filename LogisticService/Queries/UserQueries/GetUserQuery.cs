@@ -1,9 +1,9 @@
-﻿using LogisticService.Models;
+﻿using LogisticService.Models.Authentication;
 using MediatR;
 
 namespace LogisticService.Queries.UserQueries
 {
-	public class GetUserQuery : IRequest<User>
+    public class GetUserQuery : IRequest<User>
 	{
 		public string Username { get; set; }
 

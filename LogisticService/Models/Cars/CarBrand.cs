@@ -6,9 +6,17 @@
 		{
 			Brand = brand;
 			Models = models;
+			//Token = token;
 		}
 
+		public CarBrand()
+		{
+
+		}
+
+		public int Id { get; set; }
 		public string Brand { get; set; }
+		public string Token { get; set; }
 		public List<CarModel> Models { get; set; }
 	}
 }

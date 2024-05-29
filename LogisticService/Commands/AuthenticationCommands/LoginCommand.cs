@@ -1,9 +1,9 @@
-﻿using LogisticService.Models;
+﻿using LogisticService.Models.Authentication;
 using MediatR;
 
 namespace LogisticService.Commands.AuthenticationCommands
 {
-	public class LoginCommand : IRequest<User>
+    public class LoginCommand : IRequest<User>
 	{
 		public LoginCommand(string username, string password)
 		{

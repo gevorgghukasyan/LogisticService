@@ -1,4 +1,4 @@
-﻿namespace LogisticService.Models
+﻿namespace LogisticService.Models.Authentication
 {
 	public class LoginModel
 	{
