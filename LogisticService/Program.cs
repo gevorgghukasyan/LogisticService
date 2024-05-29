@@ -1,5 +1,8 @@
 using LogisticService.Data;
+using LogisticService.Mapper;
 using LogisticService.Middlewares;
+using LogisticService.Models.Cars;
+using LogisticService.Responses;
 using LogisticService.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -29,8 +32,9 @@ builder.Services.AddTransient<LogisticService.Services.IAuthenticationService, U
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICarModelService, CarService>();
 builder.Services.AddTransient<ICarBrandService, CarService>();
-
+builder.Services.AddTransient<IMapper<CarBrand, CarBrandEntity>, CarBrandMapper>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddTransient<IMapper<CarModel, CarModelEntity>, CarModelMapper>();
 
 
 // Adding Authentication

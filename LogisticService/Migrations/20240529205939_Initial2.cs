@@ -5,7 +5,7 @@
 namespace LogisticService.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,15 +61,16 @@ namespace LogisticService.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: false),
-                    CarBrandId = table.Column<int>(type: "int", nullable: true)
+                    CarBrandEntityId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarModel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CarModel_CarBrands_CarBrandId",
-                        column: x => x.CarBrandId,
+                        name: "FK_CarModel_CarBrands_CarBrandEntityId",
+                        column: x => x.CarBrandEntityId,
                         principalTable: "CarBrands",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -81,9 +82,9 @@ namespace LogisticService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarModel_CarBrandId",
+                name: "IX_CarModel_CarBrandEntityId",
                 table: "CarModel",
-                column: "CarBrandId");
+                column: "CarBrandEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CarModel_TypeId",

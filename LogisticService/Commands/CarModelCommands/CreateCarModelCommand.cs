@@ -1,9 +1,10 @@
 ﻿using LogisticService.Models.Cars;
+using LogisticService.Responses;
 using MediatR;
 
 namespace LogisticService.Commands.CarModelCommands
 {
-	public class CreateCarModelCommand : IRequest<CarModel>
+	public class CreateCarModelCommand : IRequest<CarModelEntity>
 	{
 		public CreateCarModelCommand(string brand, CarModel model)
 		{

@@ -22,7 +22,7 @@ namespace LogisticService.Handlers.CarBrandHandlers
 				return false;
 			}
 
-			await _carBrandService.DeleteCarBrandAsync(carbrand);
+			await _carBrandService.DeleteCarBrandAsync(new Models.Cars.CarBrand(carbrand.Brand, carbrand.Models) { Id = carbrand.Id });
 
 			return true;
 		}

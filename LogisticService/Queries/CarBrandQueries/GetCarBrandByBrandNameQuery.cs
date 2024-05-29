@@ -1,9 +1,10 @@
 ﻿using LogisticService.Models.Cars;
+using LogisticService.Responses;
 using MediatR;
 
 namespace LogisticService.Queries.CarBrandQueries
 {
-	public class GetCarBrandByBrandNameQuery : IRequest<CarBrand>
+	public class GetCarBrandByBrandNameQuery : IRequest<CarBrandEntity>
 	{
 		public string BrandName { get; set; }
 

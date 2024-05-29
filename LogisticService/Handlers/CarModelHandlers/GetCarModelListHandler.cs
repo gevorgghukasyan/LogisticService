@@ -1,11 +1,12 @@
 ﻿using LogisticService.Models.Cars;
 using LogisticService.Queries.CarModelQueries;
+using LogisticService.Responses;
 using LogisticService.Services;
 using MediatR;
 
 namespace LogisticService.Handlers.CarModelHandlers
 {
-	public class GetCarModelListHandler : IRequestHandler<GetCarModelListQuery, List<CarModel>>
+	public class GetCarModelListHandler : IRequestHandler<GetCarModelListQuery, List<CarModelEntity>>
 	{
 		private readonly ICarModelService _carModelService;
 
@@ -14,7 +15,7 @@ namespace LogisticService.Handlers.CarModelHandlers
 			_carModelService = carModelService;
 		}
 
-		public async Task<List<CarModel>> Handle(GetCarModelListQuery request, CancellationToken cancellationToken)
+		public async Task<List<CarModelEntity>> Handle(GetCarModelListQuery request, CancellationToken cancellationToken)
 		{
 			return (await _carModelService.GetCarModelListByBrandName(request.BrandName));
 		}

@@ -74,7 +74,38 @@ namespace LogisticService.Migrations
                     b.ToTable("CarTypes");
                 });
 
-            modelBuilder.Entity("LogisticService.Models.Cars.CarBrand", b =>
+            modelBuilder.Entity("LogisticService.Models.Cars.CarModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CarBrandEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarBrandEntityId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("CarModel");
+                });
+
+            modelBuilder.Entity("LogisticService.Responses.CarBrandEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -93,36 +124,9 @@ namespace LogisticService.Migrations
 
             modelBuilder.Entity("LogisticService.Models.Cars.CarModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CarBrandId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarBrandId");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("CarModel");
-                });
-
-            modelBuilder.Entity("LogisticService.Models.Cars.CarModel", b =>
-                {
-                    b.HasOne("LogisticService.Models.Cars.CarBrand", null)
+                    b.HasOne("LogisticService.Responses.CarBrandEntity", null)
                         .WithMany("Models")
-                        .HasForeignKey("CarBrandId");
+                        .HasForeignKey("CarBrandEntityId");
 
                     b.HasOne("LogisticService.Models.CalculationModels.CarType", "Type")
                         .WithMany()
@@ -133,7 +137,7 @@ namespace LogisticService.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("LogisticService.Models.Cars.CarBrand", b =>
+            modelBuilder.Entity("LogisticService.Responses.CarBrandEntity", b =>
                 {
                     b.Navigation("Models");
                 });

@@ -1,13 +1,14 @@
 ﻿using LogisticService.Models.Cars;
+using LogisticService.Responses;
 
 namespace LogisticService.Services
 {
 	public interface ICarBrandService
 	{
-		Task<IEnumerable<CarBrand>> GetCarBrandListAsync();
+		Task<IEnumerable<CarBrandEntity>> GetCarBrandListAsync();
 		Task AddCarBrandAsync(CarBrand carBrand);
-		Task<CarBrand> UpdateCarBrandAsync(CarBrand carBrand);
+		Task<CarBrandEntity> UpdateCarBrandAsync(CarBrand carBrand);
 		Task DeleteCarBrandAsync(CarBrand carBrand);
-		Task<CarBrand> GetCarBrandByNameAsync(string brand);
+		Task<CarBrandEntity> GetCarBrandByNameAsync(string brand);
 	}
 }

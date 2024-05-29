@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogisticService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240529105851_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240529205939_Initial2")]
+    partial class Initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,7 +77,38 @@ namespace LogisticService.Migrations
                     b.ToTable("CarTypes");
                 });
 
-            modelBuilder.Entity("LogisticService.Models.Cars.CarBrand", b =>
+            modelBuilder.Entity("LogisticService.Models.Cars.CarModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CarBrandEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarBrandEntityId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("CarModel");
+                });
+
+            modelBuilder.Entity("LogisticService.Responses.CarBrandEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,36 +127,9 @@ namespace LogisticService.Migrations
 
             modelBuilder.Entity("LogisticService.Models.Cars.CarModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CarBrandId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarBrandId");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("CarModel");
-                });
-
-            modelBuilder.Entity("LogisticService.Models.Cars.CarModel", b =>
-                {
-                    b.HasOne("LogisticService.Models.Cars.CarBrand", null)
+                    b.HasOne("LogisticService.Responses.CarBrandEntity", null)
                         .WithMany("Models")
-                        .HasForeignKey("CarBrandId");
+                        .HasForeignKey("CarBrandEntityId");
 
                     b.HasOne("LogisticService.Models.CalculationModels.CarType", "Type")
                         .WithMany()
@@ -136,7 +140,7 @@ namespace LogisticService.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("LogisticService.Models.Cars.CarBrand", b =>
+            modelBuilder.Entity("LogisticService.Responses.CarBrandEntity", b =>
                 {
                     b.Navigation("Models");
                 });

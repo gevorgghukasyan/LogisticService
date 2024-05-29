@@ -30,7 +30,7 @@ namespace LogisticService.Controllers
 		}
 
 		[HttpPost("[action]")]
-		public async Task<ActionResult<List<CarBrand>>> GetCarBrandListAsync(GetCarBrandListRequest request)
+		public async Task<ActionResult<List<CarBrandEntity>>> GetCarBrandListAsync(GetCarBrandListRequest request)
 		{
 			var brandes = await _mediator.Send(new GetCarBrandListQuery());
 

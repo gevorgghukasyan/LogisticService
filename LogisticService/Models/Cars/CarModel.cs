@@ -2,14 +2,6 @@
 
 namespace LogisticService.Models.Cars
 {
-	//public enum CarTypes
-	//{
-	//	Sedan,
-	//	Suv,
-	//	Van,
-	//	Pickup
-	//}
-
 	public class CarModel
 	{
 		public CarModel(string name, CarType type, string token)

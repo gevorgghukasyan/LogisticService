@@ -1,9 +1,10 @@
 ﻿using LogisticService.Models.Cars;
+using LogisticService.Responses;
 using MediatR;
 
 namespace LogisticService.Commands.CarBrandCommands
 {
-	public class UpdateCarBrandCommand : IRequest<CarBrand>
+	public class UpdateCarBrandCommand : IRequest<CarBrandEntity>
 	{
 		public UpdateCarBrandCommand(string brand, List<CarModel> models)
 		{
