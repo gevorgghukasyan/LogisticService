@@ -12,7 +12,6 @@ namespace LogisticService.Services
 		private readonly DataContext _dataContext;
 		JwtSecurityTokenHandler _tokenHandler = new JwtSecurityTokenHandler();
 
-
 		public UserService(DataContext dataContext)
 		{
 			_dataContext = dataContext;

@@ -2,12 +2,19 @@
 using LogisticService.Commands.CarBrandCommands;
 using LogisticService.Commands.CarModelCommands;
 using LogisticService.Models.Authentication;
+using LogisticService.Models.CalculationModels;
+using LogisticService.Models.CarCrushedModels;
 using LogisticService.Models.Cars;
+using LogisticService.Models.ContainerModels;
 using LogisticService.Queries.CarBrandQueries;
 using LogisticService.Queries.CarModelQueries;
 using LogisticService.Requests;
 using LogisticService.Responses;
 using LogisticService.Services;
+using LogisticService.Services.CarTypeServices;
+using LogisticService.Services.ContainerServices;
+using LogisticService.Services.CrushedServices;
+using LogisticService.Services.DirectionServices;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,13 +29,164 @@ namespace LogisticService.Controllers
 	{
 		private readonly IMediator _mediator;
 		private readonly IConfiguration _configuration;
+		private readonly IContainerService _containerService;
+		private readonly IDirectionService _directionService;
+		private readonly ICarTypeService _carTypeService;
+		private readonly ICarCrushedService _carCrushedService;
 
-		public CarController(IMediator mediator, IConfiguration configuration)
+		public CarController(
+			IMediator mediator,
+			IConfiguration configuration,
+			IContainerService containerService,
+			IDirectionService directionService,
+			ICarTypeService carTypeService,
+			ICarCrushedService carCrushedService)
 		{
 			_mediator = mediator;
 			_configuration = configuration;
+			_containerService = containerService;
+			_directionService = directionService;
+			_carTypeService = carTypeService;
+			_carCrushedService = carCrushedService;
 		}
 
+		#region CarCrushed
+		[HttpGet("[action]")]
+		public async Task<ActionResult<Container>> GetCarCrushedByTypeAsync(GetCarCrushedByTypeRequest request)
+		{
+			var cc = await _carCrushedService.GetCrushedByType(request.Type);
+
+			return Ok(cc);
+		}
+
+		[HttpGet("[action]")]
+		public async Task<ActionResult<IEnumerable<Container>>> GetCarCrushedsAsync()
+		{
+			var ccs = await _carCrushedService.GetAll();
+
+			return Ok(ccs);
+		}
+
+		[HttpPost("[action]")]
+		public async Task<ActionResult<IEnumerable<Container>>> AddCarCrushedAsync(CarCrushed carCrushed)
+		{
+			await _carCrushedService.AddCrushed(carCrushed);
+			return Ok();
+		}
+		#endregion
+
+		#region CarType
+
+		[HttpPost("[action]")]
+		public async Task<ActionResult> AddCarTypeAsync(CarType carType)
+		{
+			await _carTypeService.AddCarType(carType);
+			return Ok();
+		}
+
+		[HttpGet("[action]")]
+		public async Task<ActionResult<CarType>> GetCarTypeAsync(GetCarTypeRequest request)
+		{
+			var ct = await _carTypeService.GetCarType(request.Name);
+
+			return Ok(ct);
+		}
+
+		[HttpGet("[action]")]
+		public async Task<ActionResult<IEnumerable<Direction>>> GetCarTypesAsync(GetCarTypesRequest request)
+		{
+			var cts = await _carTypeService.GetAllCarTypes();
+
+			return Ok(cts);
+		}
+
+		[HttpPut("[action]")]
+		public async Task<ActionResult> UpdateCarTypeAsync(CarType carType)
+		{
+			await _carTypeService.UpdateCarType(carType);
+
+			return Ok();
+		}
+
+		[HttpDelete("[action]")]
+		public async Task<ActionResult> DeleteCarTypeAsync(CarType carType)
+		{
+			await _carTypeService.DeleteCarType(carType);
+
+			return Ok();
+		}
+
+		#endregion
+
+		#region FixedDirections
+
+		[HttpPost("[action]")]
+		public async Task<ActionResult> AddFixedDirectionAsync(Direction direction)
+		{
+			await _directionService.AddFixedDiraction(direction);
+			return Ok();
+		}
+
+		[HttpGet("[action]")]
+		public async Task<ActionResult<Direction>> GetFixedDirectionAsync(GetFixedDirectionRequest request)
+		{
+			var fd = await _directionService.GetFixedDirection(request.From, request.To);
+
+			return Ok(fd);
+		}
+
+		[HttpGet("[action]")]
+		public async Task<ActionResult<IEnumerable<Direction>>> GetFixedDirectionsAsync(GetFixedDirectionsRequest request)
+		{
+			var fds = await _directionService.GetAllFixedDirections();
+
+			return Ok(fds);
+		}
+
+		[HttpPut("[action]")]
+		public async Task<ActionResult> UpdateFixedDirectionAsync(Direction direction)
+		{
+			await _directionService.UpdateDirection(direction);
+
+			return Ok();
+		}
+
+		[HttpDelete("[action]")]
+		public async Task<ActionResult> DeleteFixedDirectionAsync(Direction direction)
+		{
+			await _directionService.DeleteDirection(direction);
+
+			return Ok();
+		}
+
+		#endregion
+
+		#region Container
+		[HttpGet("[action]")]
+		public async Task<ActionResult<Container>> GetContainerByTypeAsync(ContainerRequest request)
+		{
+			var container = await _containerService.GetContainer(request.InClose);
+
+			return Ok(container);
+		}
+
+		[HttpGet("[action]")]
+		public async Task<ActionResult<IEnumerable<Container>>> GetContainersAsync(GetContainerRequest request)
+		{
+			var containers = await _containerService.GetContainers();
+
+			return Ok(containers);
+		}
+
+		[HttpPost("[action]")]
+		public async Task<ActionResult<IEnumerable<Container>>> AddContainerAsync(Container container)
+		{
+			await _containerService.AddContainer(container);
+			return Ok();
+		}
+		#endregion
+
+		#region cqrs used
 		[HttpPost("[action]")]
 		public async Task<ActionResult<List<CarBrandEntity>>> GetCarBrandListAsync(GetCarBrandListRequest request)
 		{
@@ -151,5 +309,6 @@ namespace LogisticService.Controllers
 
 			return Ok(tokens);
 		}
+		#endregion
 	}
 }

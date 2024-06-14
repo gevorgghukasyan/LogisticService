@@ -4,6 +4,12 @@ using LogisticService.Middlewares;
 using LogisticService.Models.Cars;
 using LogisticService.Responses;
 using LogisticService.Services;
+using LogisticService.Services.CalculationServices;
+using LogisticService.Services.CarTypeServices;
+using LogisticService.Services.ContainerServices;
+using LogisticService.Services.CrushedServices;
+using LogisticService.Services.DirectionServices;
+using LogisticService.Services.LogisticServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +38,12 @@ builder.Services.AddTransient<LogisticService.Services.IAuthenticationService, U
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICarModelService, CarService>();
 builder.Services.AddTransient<ICarBrandService, CarService>();
+builder.Services.AddTransient<ICalculationService, CalculationService>();
+builder.Services.AddTransient<IDirectionService, DirectionService>();
+builder.Services.AddTransient<ICarTypeService, CarTypeService>();
+builder.Services.AddTransient<ILogisticService, LogisticService.Services.LogisticServices.LogisticService>();
+builder.Services.AddTransient<IContainerService, ContainerService>();
+builder.Services.AddTransient<ICarCrushedService, CarCrushedService>();
 builder.Services.AddTransient<IMapper<CarBrand, CarBrandEntity>, CarBrandMapper>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddTransient<IMapper<CarModel, CarModelEntity>, CarModelMapper>();
@@ -67,7 +79,7 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
