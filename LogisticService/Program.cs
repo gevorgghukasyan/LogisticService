@@ -48,7 +48,6 @@ builder.Services.AddTransient<IMapper<CarBrand, CarBrandEntity>, CarBrandMapper>
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddTransient<IMapper<CarModel, CarModelEntity>, CarModelMapper>();
 
-
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -71,6 +70,7 @@ builder.Services.AddAuthentication(options =>
 		ClockSkew = TimeSpan.Zero
 	};
 });
+
 
 builder.Services.AddSingleton<CustomTokenMiddleware>();
 //builder.Services.AddDefaultCorsPolicy();

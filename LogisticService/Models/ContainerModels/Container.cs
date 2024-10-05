@@ -8,11 +8,7 @@
 			Coefficient = coefficient;
 		}
 
-		///// <summary>
-		///// Container type string value
-		///// </summary>
-		//public string Type { get; set; }
-
+		public int Id { get; set; }
 		/// <summary>
 		/// Container type boolean value
 		/// </summary>

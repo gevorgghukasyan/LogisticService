@@ -14,12 +14,12 @@ namespace LogisticService.Services.CrushedServices
 		}
 
 		public async Task AddCrushed(CarCrushed crushed)
-			=> await _dataContext.CarCrusheds.AddAsync(crushed);
+			=> await _dataContext.CarCrushed.AddAsync(crushed);
 
 		public async Task<IEnumerable<CarCrushed>> GetAll()
-			=> await _dataContext.CarCrusheds.ToListAsync();
+			=> await _dataContext.CarCrushed.ToListAsync();
 
 		public async Task<CarCrushed> GetCrushedByType(bool type)
-			=> await _dataContext.CarCrusheds.FirstOrDefaultAsync(x => x.IsCrushed == type);
+			=> await _dataContext.CarCrushed.FirstOrDefaultAsync(x => x.IsCrushed == type);
 	}
 }

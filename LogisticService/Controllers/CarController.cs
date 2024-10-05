@@ -60,7 +60,7 @@ namespace LogisticService.Controllers
 		}
 
 		[HttpGet("[action]")]
-		public async Task<ActionResult<IEnumerable<Container>>> GetCarCrushedsAsync()
+		public async Task<ActionResult<IEnumerable<Container>>> GetCarCrushedAsync()
 		{
 			var ccs = await _carCrushedService.GetAll();
 

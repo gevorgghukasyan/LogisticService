@@ -9,6 +9,7 @@
 			Token = token;
 		}
 
+		public int Id { get; set; }
 		public bool IsCrushed { get; set; }
 		public float Coefficient { get; set; }
 		public string Token { get; set; }

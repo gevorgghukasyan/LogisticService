@@ -20,6 +20,6 @@ namespace LogisticService.Data
 		public DbSet<CarType> CarTypes { get; set; }
 		public DbSet<Direction> FixedDirections { get; set; }
 		public DbSet<Container> Containers { get; set; }
-		public DbSet<CarCrushed> CarCrusheds { get; set; }
+		public DbSet<CarCrushed> CarCrushed { get; set; }
 	}
 }

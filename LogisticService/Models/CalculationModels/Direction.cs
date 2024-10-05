@@ -11,6 +11,7 @@
 			Token = token;
 		}
 
+		public int Id { get; set; }
 		public string From { get; set; }
 		public string To { get; set; }
 		public float Distance { get; set; }

@@ -4,6 +4,9 @@ using LogisticService.Services.CalculationServices;
 using LogisticService.Services.CarTypeServices;
 using LogisticService.Services.ContainerServices;
 using LogisticService.Services.DirectionServices;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel;
 
 namespace LogisticService.Services.LogisticServices
 {
@@ -13,6 +16,7 @@ namespace LogisticService.Services.LogisticServices
 		private readonly ICalculationService _calculationService;
 		private readonly ICarTypeService _carTypeService;
 		private readonly IContainerService _containerService;
+
 
 		public LogisticService(
 			IDirectionService directionService,
