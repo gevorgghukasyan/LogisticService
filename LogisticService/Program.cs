@@ -87,6 +87,10 @@ var app = builder.Build();
 app.UseMiddleware<CustomTokenMiddleware>();
 
 //app.UseHttpsRedirection();
+using (var dc = app.Services.GetRequiredService<DataContext>())
+{
+	dc.Database.EnsureCreated();
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
